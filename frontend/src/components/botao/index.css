@@ -1,0 +1,33 @@
+button {
+    font-family: "Montserrat", sans-serif;
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all ease 0.2s;
+}
+
+button.outline {
+    border: 1px solid #FFFFFF1A;
+    color: white;
+    background-color: transparent;
+}
+
+button.outline:hover {
+    border: 1px solid #ffffff3d;
+}
+
+button.primary {
+    border: 1px solid #C975F4;
+    background-color: #C975F4;
+    color: white;
+}
+
+button.primary:hover {
+    border: 1px solid #bd4ff4;
+    background-color: #bd4ff4;
+}

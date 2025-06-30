@@ -1,0 +1,25 @@
+.divinput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #FFFFFF1A;
+    border-radius: 8px;
+    padding: 10px 12px;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+input {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    color: #E1E1E6;
+    outline: none;
+}
+
+.divinput i {
+    font-size: 16px;
+    color: #C975F4;
+
+}

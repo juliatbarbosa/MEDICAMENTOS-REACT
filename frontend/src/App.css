@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #121214;
+    color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+header img {
+    width: 50px;
+}
+
+.titulo {
+    margin-bottom: 20px;
+    height: 60px;
+
+}
+
+.titulo span {
+    font-size: 16px;
+    color: #E1E1E6;
+
+}
+
+.titulo h1 {
+    font-size: 24px;
+    color: #E1E1E6;
+    margin-bottom: 5px;
+}
+
+.pesquisa {
+    width: 250px;
+}

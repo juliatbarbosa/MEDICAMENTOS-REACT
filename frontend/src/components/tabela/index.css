@@ -1,0 +1,40 @@
+table {
+    border: 2px solid #FFFFFF1A;
+    width: 100%;
+    border-radius: 8px;
+    border-spacing: 0;
+}
+
+
+th,
+td {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 12px;
+    border-bottom: 1px solid #FFFFFF1A;
+}
+
+th {
+    font-weight: 600;
+}
+
+td {
+    font-size: 14px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.centro {
+    text-align: center;
+}
+
+.icones {
+    width: 80px;
+}
+
+.icones div {
+    display: flex;
+    justify-content: space-between;
+}

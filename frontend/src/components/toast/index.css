@@ -1,0 +1,39 @@
+.fundoToast {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.fundoToast .container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: #C975F4;
+    padding: 12px 12px;
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.error {
+    background-color: #FA455C;
+}
+
+.botaoFecharToast {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0px;
+}
