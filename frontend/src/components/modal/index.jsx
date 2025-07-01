@@ -5,7 +5,6 @@ import { X } from '@phosphor-icons/react';
 import { Botao } from '../botao';
 
 export function Modal({ dados, fecharModal, criarMedicamento, alterarMedicamento }) {
-    console.log(dados)
     const [nome, setNome] = useState('')
     const [fabricante, setFabricante] = useState('')
     const [tipo, setTipo] = useState('')
@@ -37,7 +36,7 @@ export function Modal({ dados, fecharModal, criarMedicamento, alterarMedicamento
                     <X />
                 </button>
 
-                <form className='formulario'>
+                <form className='formulario' autoComplete='off'>
                     <div className="form">
                         <label htmlFor="nome">Nome</label>
                         <Input type="text" id="nome" name="nome" onChange={(e) => setNome(e.target.value)} value={nome} />

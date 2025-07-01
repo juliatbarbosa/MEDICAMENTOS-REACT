@@ -18,9 +18,10 @@ input {
     outline: none;
 }
 
-input:-internal-autofill-selected {
-    background-color: transparent !important;
-    color: #E1E1E6 !important;
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .divinput i {

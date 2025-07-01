@@ -7,6 +7,7 @@ import { MagnifyingGlassIcon, Plus } from "@phosphor-icons/react";
 import { Toast } from './components/toast'
 import { Modal } from './components/modal'
 import { ModalExcluir } from './components/modal-excluir'
+import { Loading } from './components/loading'
 
 export function App() {
   const [medicamentos, setMedicamentos] = useState([])
@@ -24,85 +25,122 @@ export function App() {
     visible: false,
     id: null
   })
+  const [loading, setLoading] = useState(false)
 
   async function getMedicamentos() {
-    const response = await fetch(`http://127.0.0.1:3000/medicamento${filtro ? `?nome=${filtro}` : ""}`, {
-      headers: { 'Content-Type': 'application/json' },
-      method: "GET"
-    })
+    abrirLoading()
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/medicamento${filtro ? `?nome=${filtro}` : ""}`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: "GET"
+      })
 
-    const data = await response.json()
+      const data = await response.json()
+      setMedicamentos(data)
 
-    setMedicamentos(data)
-
+    } catch (error) {
+      abrirToast('Falha ao concluir ação!', false)
+    } finally {
+      fecharLoading()
+    }
   }
 
   async function getByIdMedicamentos(id) {
-    const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
-      headers: { 'Content-Type': 'application/json' },
-      method: "GET"
-    })
+    abrirLoading()
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: "GET"
+      })
 
-    const data = await response.json()
+      const data = await response.json()
 
-    abrirModal(data)
+      abrirModal(data)
 
+    } catch (error) {
+      abrirToast('Falha ao concluir ação!', false)
+    } finally {
+      fecharLoading()
+    }
   }
 
   async function criarMedicamento(obj) {
-    const response = await fetch(`http://127.0.0.1:3000/medicamento`, {
-      headers: { 'Content-Type': 'application/json' },
-      method: "POST",
-      body: JSON.stringify(obj),
-    })
+    abrirLoading()
 
-    const data = await response.json()
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/medicamento`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        body: JSON.stringify(obj),
+      })
 
-    if (data.success) {
-      fecharModal()
-      abrirToast(data.message, data.success)
-      getMedicamentos()
-    } else {
-      abrirToast("Falha ao cadastrar medicamento!", data.success)
+      const data = await response.json()
+
+      if (data.success) {
+        fecharModal()
+        abrirToast(data.message, data.success)
+        getMedicamentos()
+      } else {
+        abrirToast("Falha ao cadastrar medicamento!", data.success)
+      }
+
+    } catch (error) {
+      abrirToast('Falha ao concluir ação!', false)
+    } finally {
+      fecharLoading()
     }
-
   }
 
   async function alterarMedicamento(id, obj) {
-    const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
-      headers: { 'Content-Type': 'application/json' },
-      method: "PUT",
-      body: JSON.stringify(obj),
-    })
+    abrirLoading()
 
-    const data = await response.json()
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        body: JSON.stringify(obj),
+      })
 
-    if (data.success) {
-      fecharModal()
-      abrirToast(data.message, data.success)
-      getMedicamentos()
-    } else {
-      abrirToast("Falha ao alterar medicamento!", data.success)
+      const data = await response.json()
+
+      if (data.success) {
+        fecharModal()
+        abrirToast(data.message, data.success)
+        getMedicamentos()
+      } else {
+        abrirToast("Falha ao alterar medicamento!", data.success)
+      }
+    } catch (error) {
+      abrirToast('Falha ao concluir ação!', false)
+    } finally {
+      fecharLoading()
     }
-
   }
 
   async function deleteMedicamento(id) {
-    const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
-      headers: { 'Content-Type': 'application/json' },
-      method: "DELETE"
-    })
+    abrirLoading()
 
-    const data = await response.json()
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        method: "DELETE"
+      })
 
-    if (data.success) {
-      fecharModalExcluir()
-      abrirToast(data.message, data.success)
-      getMedicamentos()
-    } else {
-      abrirToast("Falha ao cadastrar medicamento!", data.success)
+      const data = await response.json()
+
+      if (data.success) {
+        fecharModalExcluir()
+        abrirToast(data.message, data.success)
+        getMedicamentos()
+      } else {
+        abrirToast("Falha ao excluir medicamento!", data.success)
+      }
+
+    } catch (error) {
+      abrirToast('Falha ao concluir ação!', false)
+    } finally {
+      fecharLoading()
     }
-
   }
 
   function carregarFiltro(e) {
@@ -118,11 +156,19 @@ export function App() {
 
     setTimeout(() => {
       setToast(prev => ({ ...prev, visible: false }));
-    }, 3000);
+    }, 5000);
   }
 
   function fecharToast() {
     setToast(prev => ({ ...prev, visible: false }));
+  }
+
+  function abrirLoading() {
+    setLoading(true)
+  }
+
+  function fecharLoading() {
+    setLoading(false);
   }
 
   function abrirModal(dados) {
@@ -154,7 +200,11 @@ export function App() {
   }
 
   useEffect(() => {
-    getMedicamentos()
+    const timeout = setTimeout(() => {
+      getMedicamentos()
+    }, 500)
+
+    return () => clearTimeout(timeout)
   }, [filtro])
 
   return (
@@ -180,6 +230,10 @@ export function App() {
       {modalExcluir.visible && (
         <ModalExcluir id={modalExcluir.id} fecharModalExcluir={fecharModalExcluir} deleteMedicamento={deleteMedicamento} />
       )}
+      {loading && (
+        <Loading />
+      )}
+
     </>
 
   )
