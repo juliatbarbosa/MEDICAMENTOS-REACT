@@ -1,0 +1,49 @@
+.fundoModalExcluir {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fundoModalExcluir .container {
+    padding: 30px;
+    width: 450px;
+    background-color: #27272a;
+    border-radius: 8px;
+    position: relative;
+}
+
+.fundoModalExcluir .container h3 {
+    margin-block: 0px 20px;
+}
+
+.fundoModalExcluir .botaoFecharModal {
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0px;
+    color: white;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+
+.formulario p {
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.formulario .linhaBotoes {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 8px;
+
+}

@@ -6,6 +6,7 @@ import { Botao } from './components/botao'
 import { MagnifyingGlassIcon, Plus } from "@phosphor-icons/react";
 import { Toast } from './components/toast'
 import { Modal } from './components/modal'
+import { ModalExcluir } from './components/modal-excluir'
 
 export function App() {
   const [medicamentos, setMedicamentos] = useState([])
@@ -16,6 +17,10 @@ export function App() {
     success: true,
   });
   const [modal, setModal] = useState({
+    visible: false,
+    dados: null
+  })
+  const [modalExcluir, setModalExcluir] = useState({
     visible: false,
     id: null
   })
@@ -28,8 +33,19 @@ export function App() {
 
     const data = await response.json()
 
-    console.log(data)
     setMedicamentos(data)
+
+  }
+
+  async function getByIdMedicamentos(id) {
+    const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: "GET"
+    })
+
+    const data = await response.json()
+
+    abrirModal(data)
 
   }
 
@@ -43,7 +59,46 @@ export function App() {
     const data = await response.json()
 
     if (data.success) {
+      fecharModal()
       abrirToast(data.message, data.success)
+      getMedicamentos()
+    } else {
+      abrirToast("Falha ao cadastrar medicamento!", data.success)
+    }
+
+  }
+
+  async function alterarMedicamento(id, obj) {
+    const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: "PUT",
+      body: JSON.stringify(obj),
+    })
+
+    const data = await response.json()
+
+    if (data.success) {
+      fecharModal()
+      abrirToast(data.message, data.success)
+      getMedicamentos()
+    } else {
+      abrirToast("Falha ao alterar medicamento!", data.success)
+    }
+
+  }
+
+  async function deleteMedicamento(id) {
+    const response = await fetch(`http://127.0.0.1:3000/medicamento/${id}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: "DELETE"
+    })
+
+    const data = await response.json()
+
+    if (data.success) {
+      fecharModalExcluir()
+      abrirToast(data.message, data.success)
+      getMedicamentos()
     } else {
       abrirToast("Falha ao cadastrar medicamento!", data.success)
     }
@@ -70,15 +125,29 @@ export function App() {
     setToast(prev => ({ ...prev, visible: false }));
   }
 
-  function abrirModal(id = null) {
+  function abrirModal(dados) {
     setModal({
       visible: true,
-      id
+      dados
     })
   }
 
   function fecharModal() {
     setModal({
+      visible: false,
+      dados: null
+    })
+  }
+
+  function abrirModalExcluir(id = null) {
+    setModalExcluir({
+      visible: true,
+      id
+    })
+  }
+
+  function fecharModalExcluir() {
+    setModalExcluir({
       visible: false,
       id: null
     })
@@ -101,12 +170,15 @@ export function App() {
       <div className='pesquisa'>
         <Input icone={<MagnifyingGlassIcon color="#C975F4" size={16} />} type="text" placeholder="Pesquisar medicamento..." onChange={carregarFiltro} />
       </div>
-      <Tabela dados={medicamentos} />
+      <Tabela dados={medicamentos} abrirModalExcluir={abrirModalExcluir} abrirModal={abrirModal} getByIdMedicamentos={getByIdMedicamentos} />
       {toast.visible && (
         <Toast message={toast.message} success={toast.success} fecharToast={fecharToast} />
       )}
       {modal.visible && (
-        <Modal id={modal.id} fecharModal={fecharModal} criarMedicamento={() => criarMedicamento} />
+        <Modal dados={modal.dados} fecharModal={fecharModal} criarMedicamento={criarMedicamento} alterarMedicamento={alterarMedicamento} />
+      )}
+      {modalExcluir.visible && (
+        <ModalExcluir id={modalExcluir.id} fecharModalExcluir={fecharModalExcluir} deleteMedicamento={deleteMedicamento} />
       )}
     </>
 

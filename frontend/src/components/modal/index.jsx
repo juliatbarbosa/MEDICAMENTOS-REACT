@@ -1,22 +1,37 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../input';
 import './index.css';
 import { X } from '@phosphor-icons/react';
 import { Botao } from '../botao';
 
-export function Modal({ id = null, fecharModal, criarMedicamento }) {
+export function Modal({ dados, fecharModal, criarMedicamento, alterarMedicamento }) {
+    console.log(dados)
     const [nome, setNome] = useState('')
     const [fabricante, setFabricante] = useState('')
     const [tipo, setTipo] = useState('')
     const [quantidade, setQuantidade] = useState('')
 
-    
+    useEffect(() => {
+        if (dados) {
+            setNome(dados.nome || '')
+            setFabricante(dados.fabricante || '')
+            setTipo(dados.tipo || '')
+            setQuantidade(dados.quantidade || '')
+        }
+    }, [dados])
+
+    const obj = {
+        "nome": nome,
+        "fabricante": fabricante,
+        "tipo": tipo,
+        "quantidade": quantidade
+    }
 
     return (
         <div className='fundoModal'>
             <div className='container'>
                 <h3>
-                    {id ? "Editar medicamento" : "Novo medicamento"}
+                    {dados ? "Editar medicamento" : "Novo medicamento"}
                 </h3>
                 <button className='botaoFecharModal' onClick={fecharModal} >
                     <X />
@@ -37,11 +52,19 @@ export function Modal({ id = null, fecharModal, criarMedicamento }) {
                     </div>
                     <div className="form">
                         <label htmlFor="quantidade">Quantidade</label>
-                        <Input type="text" id="quantidade" name="quantidade" onChange={(e) => setQuantidade(e.target.value)} value={quantidade} />
+                        <Input type="number" id="quantidade" name="quantidade" onChange={(e) => setQuantidade(e.target.value)} value={quantidade} />
                     </div>
                     <div className='linhaBotoes'>
                         <Botao titulo="Cancelar" variante='outline' onClick={fecharModal} />
-                        <Botao titulo="Salvar" variante='primary' />
+                        <Botao titulo="Salvar" type="submit" onClick={(e) => {
+                            e.preventDefault()
+                            if (dados) {
+                                alterarMedicamento(dados.idmedicamento, obj)
+                            } else {
+                                criarMedicamento(obj)
+                            }
+                        }
+                        } variante='primary' />
                     </div>
                 </form>
             </div>

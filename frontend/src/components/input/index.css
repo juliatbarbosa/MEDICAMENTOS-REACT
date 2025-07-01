@@ -18,6 +18,11 @@ input {
     outline: none;
 }
 
+input:-internal-autofill-selected {
+    background-color: transparent !important;
+    color: #E1E1E6 !important;
+}
+
 .divinput i {
     font-size: 16px;
     color: #C975F4;
