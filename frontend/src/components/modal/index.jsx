@@ -3,8 +3,9 @@ import { Input } from '../input';
 import './index.css';
 import { X } from '@phosphor-icons/react';
 import { Botao } from '../botao';
+import { Toast } from '../toast';
 
-export function Modal({ dados, fecharModal, criarMedicamento, alterarMedicamento }) {
+export function Modal({ dados, fecharModal, criarMedicamento, alterarMedicamento, abrirToast}) {
     const [nome, setNome] = useState('')
     const [fabricante, setFabricante] = useState('')
     const [tipo, setTipo] = useState('')
@@ -57,10 +58,14 @@ export function Modal({ dados, fecharModal, criarMedicamento, alterarMedicamento
                         <Botao titulo="Cancelar" variante='outline' onClick={fecharModal} />
                         <Botao titulo="Salvar" type="submit" onClick={(e) => {
                             e.preventDefault()
-                            if (dados) {
-                                alterarMedicamento(dados.idmedicamento, obj)
+                            if (nome == "" || tipo == "" || fabricante == "" || quantidade == "") {
+                                abrirToast('Preencha todos os campos!', false)
                             } else {
-                                criarMedicamento(obj)
+                                if (dados) {
+                                    alterarMedicamento(dados.idmedicamento, obj)
+                                } else {
+                                    criarMedicamento(obj)
+                                }
                             }
                         }
                         } variante='primary' />

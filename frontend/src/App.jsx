@@ -156,7 +156,7 @@ export function App() {
 
     setTimeout(() => {
       setToast(prev => ({ ...prev, visible: false }));
-    }, 5000);
+    }, 3000);
   }
 
   function fecharToast() {
@@ -225,7 +225,7 @@ export function App() {
         <Toast message={toast.message} success={toast.success} fecharToast={fecharToast} />
       )}
       {modal.visible && (
-        <Modal dados={modal.dados} fecharModal={fecharModal} criarMedicamento={criarMedicamento} alterarMedicamento={alterarMedicamento} />
+        <Modal dados={modal.dados} fecharModal={fecharModal} criarMedicamento={criarMedicamento} alterarMedicamento={alterarMedicamento} abrirToast={abrirToast} />
       )}
       {modalExcluir.visible && (
         <ModalExcluir id={modalExcluir.id} fecharModalExcluir={fecharModalExcluir} deleteMedicamento={deleteMedicamento} />

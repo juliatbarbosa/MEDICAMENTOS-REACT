@@ -41,7 +41,7 @@ exports.post = async (req, res, next) => {
     req.body.fabricante
   ];
   await con.query(sql, values);
-  res.status(201).send({ message: "Medicamento inserido com sucesso!", success: true });
+  res.status(201).send({ message: "Medicamento cadastrado com sucesso!", success: true });
 };
 
 exports.put = async (req, res, next) => {
